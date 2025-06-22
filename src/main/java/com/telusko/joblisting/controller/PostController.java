@@ -22,6 +22,7 @@ public class PostController
     @Autowired
     SearchRepository srepo;
 
+    //For Swagger alone
     @ApiIgnore
     @RequestMapping(value="/")
     public void redirect(HttpServletResponse response) throws IOException {
@@ -32,8 +33,11 @@ public class PostController
     @CrossOrigin
     public List<Post> getAllPosts()
     {
+        System.out.println("repo.findAll"+ repo.findAll());
         return repo.findAll();
     }
+
+
     // posts/java
     @GetMapping("/posts/{text}")
     @CrossOrigin
@@ -48,6 +52,27 @@ public class PostController
     {
         return repo.save(post);
     }
+
+    @DeleteMapping("/post/{id}")
+    @CrossOrigin
+    public void deletePost(@PathVariable String id) {
+        repo.deleteById(id);
+    }
+
+//    @PutMapping("/post/{id}")
+//    @CrossOrigin
+//    public Post updatePost(@PathVariable String id, @RequestBody Post updatedPost) {
+//        return repo.findById(id).map(post -> {
+//            post.setProfile(updatedPost.getProfile());
+//            post.setDesc(updatedPost.getDesc());
+//            post.setExp(updatedPost.getExp());
+//            post.setTechs(updatedPost.getTechs());
+//            return repo.save(post);
+//        }).orElseGet(() -> {
+//            updatedPost.setId(id); // Make sure Post.java has an id field
+//            return repo.save(updatedPost);
+//        });
+//    }
 
 
 }
