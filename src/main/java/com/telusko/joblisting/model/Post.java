@@ -38,6 +38,15 @@ public class Post {
         return exp;
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+
     public void setExp(int exp) {
         this.exp = exp;
     }

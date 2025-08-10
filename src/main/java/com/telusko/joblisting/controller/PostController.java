@@ -38,14 +38,6 @@ public class PostController
     }
 
 
-    // posts/java
-    @GetMapping("/posts/{text}")
-    @CrossOrigin
-    public List<Post> search(@PathVariable String text)
-    {
-        return srepo.findByText(text);
-    }
-
     @PostMapping("/post")
     @CrossOrigin
     public Post addPost(@RequestBody Post post)
@@ -56,23 +48,32 @@ public class PostController
     @DeleteMapping("/post/{id}")
     @CrossOrigin
     public void deletePost(@PathVariable String id) {
+        System.out.println("repodeleteByIid");
         repo.deleteById(id);
     }
 
-//    @PutMapping("/post/{id}")
-//    @CrossOrigin
-//    public Post updatePost(@PathVariable String id, @RequestBody Post updatedPost) {
-//        return repo.findById(id).map(post -> {
-//            post.setProfile(updatedPost.getProfile());
-//            post.setDesc(updatedPost.getDesc());
-//            post.setExp(updatedPost.getExp());
-//            post.setTechs(updatedPost.getTechs());
-//            return repo.save(post);
-//        }).orElseGet(() -> {
-//            updatedPost.setId(id); // Make sure Post.java has an id field
-//            return repo.save(updatedPost);
-//        });
-//    }
+    @PutMapping("/post/{id}")
+    @CrossOrigin
+    public Post updatePost(@PathVariable String id, @RequestBody Post updatedPost) {
+        return repo.findById(id).map(post -> {
+            post.setProfile(updatedPost.getProfile());
+            post.setDesc(updatedPost.getDesc());
+            post.setExp(updatedPost.getExp());
+            post.setTechs(updatedPost.getTechs());
+            return repo.save(post);
+        }).orElseGet(() -> {
+            updatedPost.setId(id); // Make sure Post.java has an id field
+            return repo.save(updatedPost);
+        });
+    }
+
+//    Atlas search - example query is "java"
+    @GetMapping("/posts/{text}")
+    @CrossOrigin
+    public List<Post> search(@PathVariable String text)
+    {
+        return srepo.findByText(text);
+    }
 
 
 }
