@@ -32,25 +32,26 @@ public class SearchRepositoryImpl implements SearchRepository{
         MongoDatabase database = client.getDatabase("telusko");
         MongoCollection<Document> collection = database.getCollection("JobPost");
 
-        //        My Telusko Data exampel
-//        AggregateIterable<Document> result = collection.aggregate(Arrays.asList(new Document("$search",
-//                        new Document("text",
-//                        new Document("query", text)
-//                        .append("path", Arrays.asList("techs", "desc", "profile")))),
-//                        new Document("$sort",
-//                        new Document("exp", 1L)),
-//                        new Document("$limit", 5L)));
+//        FYI, Both the below logic gives the same result for the dat in MongoDB now
+        //        My Telusko Data example
+        AggregateIterable<Document> result = collection.aggregate(Arrays.asList(new Document("$search",
+                        new Document("text",
+                        new Document("query", text)
+                        .append("path", Arrays.asList("techs", "desc", "profile")))),
+                        new Document("$sort",
+                        new Document("exp", 1L)),
+                        new Document("$limit", 5L)));
 
-//        My Collection Data exampel
-        AggregateIterable<Document> result = collection.aggregate(Arrays.asList(
-                new Document("$search",
-                        new Document("index", "default")
-                                .append("text",
-                                        new Document("query", "java")
-                                                .append("path", "techs")
-                                )
-                )
-        ));
+//        My Collection Data example
+//        AggregateIterable<Document> result = collection.aggregate(Arrays.asList(
+//                new Document("$search",
+//                        new Document("index", "default")
+//                                .append("text",
+//                                        new Document("query", "java")
+//                                                .append("path", "techs")
+//                                )
+//                )
+//        ));
 
         result.forEach(doc -> posts.add(converter.read(Post.class,doc)));
         System.out.println("search result"+posts);
