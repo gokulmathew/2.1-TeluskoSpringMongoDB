@@ -13,9 +13,6 @@ import java.util.function.Function;
 
 @Component
 public class JwtUtil {
-
-//    private static final String SECRET_KEY = "this_is_a_super_secret_key_for_jwt_1234567890"; // change for production
-
     // 👇 long, plain text key (not base64, no special characters)
     private static final String SECRET_KEY = "thisisaverysecuresecretkeyforjwttoken123456789012345";
 
@@ -39,8 +36,9 @@ public class JwtUtil {
     }
 
     private Claims extractAllClaims(String token) {
-        return Jwts.parser()
-                .setSigningKey(SECRET_KEY)
+        return Jwts.parserBuilder()
+                .setSigningKey(KEY)
+                .build()
                 .parseClaimsJws(token)
                 .getBody();
     }
@@ -58,14 +56,6 @@ public class JwtUtil {
                 .compact();
     }
 
-//    public String generateToken(String username) {
-//        return Jwts.builder()
-//                .setSubject(username)
-//                .setIssuedAt(new Date())
-//                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
-//                .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
-//                .compact();
-//    }
 
     public Boolean validateToken(String token, String username) {
         final String extractedUsername = extractUsername(token);
@@ -75,7 +65,5 @@ public class JwtUtil {
 
 
 //Generates JWTs using a secret key.
-//
 //Extracts username and expiration from tokens.
-//
 //Validates tokens on incoming requests.
